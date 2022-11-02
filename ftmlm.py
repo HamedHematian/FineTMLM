@@ -153,15 +153,3 @@ class FineTMLM:
         self.eval(epoch)
       self.save_checkpoint(epoch + 1)
   
-
-tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
-model = BertForMaskedLM.from_pretrained("bert-base-uncased")
-
-text = [
-    'here is some text to train on',
-    'it must be a list of sentences',
-    'easy to pick some data in your domain'
-] * 100
-
-ftm = FineTMLM(text, model, tokenizer)
-ftm()
