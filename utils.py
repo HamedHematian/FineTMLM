@@ -41,7 +41,8 @@ class MLMDataset(Dataset):
     dict_['labels'] = torch.cat([input.pop('labels') for input in inputs])
     for key in inputs[0].keys():
       dict_[key] = torch.stack([input[key] for input in inputs], dim=0).squeeze()
-    dict_['masked_token_indexes'] = (dict_['input_ids'].view(-1) == 103).nonzero().view(-1)
+    dict_['masked_token_indexes'] = (dict_['input_ids'].view(-1) == 3).nonzero().view(-1)
+    print(dict_['masked_token_indexes'].shape)
     return dict_
 
 def tolist(tensor):
