@@ -10,8 +10,8 @@ You need to provide a corpus on which you want to train as a list of sentences a
 ```python
 from ftmlm import FineTMLM
 
-ftm = FineTMLM(text=text_list, 
-               model=mlm_model, 
+ftm = FineTMLM(data=text_list, 
+               mlm_model=mlm_model, 
                tokenizer=mlm_tokenizer,
                batch_size=20,
                max_length=100,
