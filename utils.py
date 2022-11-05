@@ -12,6 +12,11 @@ class MLMDataset(Dataset):
     self.tokenizer = tokenizer
     self.max_length = max_length
     self.mask_ratio = mask_ratio
+    MLMDataset.set_tokenizer(tokenizer)
+   
+  @classmethod
+  def set_tokenizer(cls, tokenizer):
+      cls.tokenizer = tokenizer
 
   def __len__(self):
     return len(self.data)
@@ -41,7 +46,7 @@ class MLMDataset(Dataset):
     dict_['labels'] = torch.cat([input.pop('labels') for input in inputs])
     for key in inputs[0].keys():
       dict_[key] = torch.stack([input[key] for input in inputs], dim=0).squeeze()
-    dict_['masked_token_indexes'] = (dict_['input_ids'].view(-1) == 3).nonzero().view(-1)
+    dict_['masked_token_indexes'] = (dict_['input_ids'].view(-1) == MLMDataset.tokenizer).nonzero().view(-1)
     print(dict_['masked_token_indexes'].shape)
     return dict_
 
