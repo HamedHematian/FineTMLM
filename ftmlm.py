@@ -92,7 +92,9 @@ class FineTMLM:
     self.checkpoint_available = True if checkpoint_files != [] else False
     if self.checkpoint_available:
       current_checkpoint = sorted(checkpoint_files, key=lambda x: int(x.split('_')[1]))[-1]
+      print(f'loading checkpoint {current_checkpoint}')
       self.checkpoint_config = torch.load(current_checkpoint)
+      print(f'starting from epoch {self.checkpoint_config['epoch']}')
       self.mlm_model.load_state_dict(self.checkpoint_config['model_dict']),
       self.optimizer.load_state_dict(self.checkpoint_config['optimizer_dict'])
       self.scheduler.load_state_dict(self.checkpoint_config['scheduler_dict'])
@@ -146,8 +148,7 @@ class FineTMLM:
 
   def __call__(self):
     self.load_checkpoint()
-    start_epoch = self.checkpoint_config['epoch'] if self.checkpoint_available else 0
-    for epoch in range(start_epoch, self.epochs):
+    for epoch in range(self.checkpoint_config['epoch'], self.epochs):
       self.train(epoch)
       if self.do_eval:
         self.eval(epoch)
