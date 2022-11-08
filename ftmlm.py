@@ -94,7 +94,8 @@ class FineTMLM:
       current_checkpoint = sorted(checkpoint_files, key=lambda x: int(x.split('_')[1]))[-1]
       print(f'loading checkpoint {current_checkpoint}')
       self.checkpoint_config = torch.load(current_checkpoint)
-      print(f'starting from epoch {self.checkpoint_config['epoch']}')
+      start_epoch = self.checkpoint_config['epoch']
+      print(f'starting from epoch {start_epoch}')
       self.mlm_model.load_state_dict(self.checkpoint_config['model_dict']),
       self.optimizer.load_state_dict(self.checkpoint_config['optimizer_dict'])
       self.scheduler.load_state_dict(self.checkpoint_config['scheduler_dict'])
