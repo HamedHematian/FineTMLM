@@ -88,7 +88,7 @@ class FineTMLM:
 
   
   def load_checkpoint(self):
-    checkpoint_files = glob('checkpoint*')
+    checkpoint_files = glob(os.path.join(self.checkpoint_dir, 'checkpoint*'))
     self.checkpoint_available = True if checkpoint_files != [] else False
     if self.checkpoint_available:
       current_checkpoint = sorted(checkpoint_files, key=lambda x: int(x.split('_')[1]))[-1]
