@@ -88,10 +88,11 @@ class FineTMLM:
 
   
   def load_checkpoint(self):
-    checkpoint_files = glob(os.path.join(self.checkpoint_dir, 'checkpoint*'))
+    checkpoint_files = os.listdir(self.checkpoint_dir)
     self.checkpoint_available = True if checkpoint_files != [] else False
     if self.checkpoint_available:
       current_checkpoint = sorted(checkpoint_files, key=lambda x: int(x.split('_')[1]))[-1]
+      current_checkpoint = os.path.join(self.checkpoint_dir, current_checkpoint)
       print(f'loading checkpoint {current_checkpoint}')
       self.checkpoint_config = torch.load(current_checkpoint)
       start_epoch = self.checkpoint_config['epoch']
